@@ -24,11 +24,17 @@ public class RestResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<ErrorResponse> handleCustomException(DataIntegrityViolationException ex) {
+    protected ResponseEntity<ErrorResponse> handleDataIntegrityException(DataIntegrityViolationException ex) {
         LOGGER.error(ex.getMessage());
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(FileEmptyException.class)
+    protected ResponseEntity<ErrorResponse> handleFileEmptyException(FileEmptyException ex) {
+        LOGGER.error(ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
 }

@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     public GetUserDto getUserById(Long id) {
         return userRepository.findById(id)
                 .map(userMapper::toGetUserDto)
-                .orElseThrow(() -> new NotFoundException("User not found for id: " + id));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
     }
 
     @Override

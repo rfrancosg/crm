@@ -4,6 +4,7 @@ import com.rfrancos.crm.dto.create.CreateCustomerDto;
 import com.rfrancos.crm.dto.get.GetCustomerDto;
 import com.rfrancos.crm.dto.update.UpdateCustomerDto;
 import com.rfrancos.crm.service.CustomerService;
+import com.rfrancos.crm.service.impl.S3ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,6 +31,7 @@ public class CustomerController {
 
     private static final Logger LOGGER = LogManager.getLogger(CustomerController.class);
     private final CustomerService customerService;
+    private final S3ServiceImpl s3Service;
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<GetCustomerDto>> getAllCustomers(){
@@ -56,6 +61,11 @@ public class CustomerController {
     public ResponseEntity deleteCustomer(@PathVariable Long id) {
         LOGGER.info("Delete customer with id: " + id);
         return new ResponseEntity<>(customerService.deleteCustomer(id), HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/upload-image/{customer_id}")
+    public ResponseEntity<GetCustomerDto> uploadImage(@PathVariable Long customer_id, @RequestParam("file") MultipartFile file) throws IOException {
+        return new ResponseEntity<>(customerService.uploadCustomerImage(file, customer_id), HttpStatus.OK);
     }
 
 }
