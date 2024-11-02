@@ -30,3 +30,11 @@ security:
         google:
           client-id: 465441500167-qf9fvcjda649irktv68glijcbkoblnqe.apps.googleusercontent.com
           client-secret: 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
+
+
+aws:
+  s3:
+    accessKey: AKIAWAA66JWEDWCPSYXQ
+    secretKey: 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
+    region: eu-north-1
+    bucketName: crm-qa-images
