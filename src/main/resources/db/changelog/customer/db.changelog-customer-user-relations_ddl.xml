@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="customer-relations-ddl" author="francos">
+        <addColumn tableName="customer">
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="customer"
+                                 baseColumnNames="created_by"
+                                 constraintName="fk_customer_created_by"
+                                 referencedTableName="app_user"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="customer"
+                                 baseColumnNames="updated_by"
+                                 constraintName="fk_customer_updated_by"
+                                 referencedTableName="app_user"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
