@@ -1,9 +1,7 @@
 package com.rfrancos.crm.controller;
 
-import com.rfrancos.crm.dto.create.CreateCustomerDto;
 import com.rfrancos.crm.dto.create.CreateUserDto;
 import com.rfrancos.crm.dto.get.GetUserDto;
-import com.rfrancos.crm.dto.update.UpdateCustomerDto;
 import com.rfrancos.crm.dto.update.UpdateUserDto;
 import com.rfrancos.crm.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +48,7 @@ public class UserController {
 
     @PutMapping()
     public ResponseEntity<GetUserDto> updateUser(@RequestBody UpdateUserDto updateUserDto) {
-        LOGGER.info("Update user with email: " + updateUserDto.getEmail());
+        LOGGER.info("Update user with id: " + updateUserDto.getId());
         return new ResponseEntity<>(userService.updateUser(updateUserDto), HttpStatus.OK);
     }
 
