@@ -1,0 +1,28 @@
+spring:
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        ddl-auto: none
+        generate_statistics: true  # prometheus stats
+    show-sql: true
+    database: MYSQL
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:postgresql://localhost:5432/crm?currentSchema=crm
+    username: postgres
+    password: admin
+
+---
+#Liquibase
+spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+
+
+
+
