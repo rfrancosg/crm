@@ -3,14 +3,11 @@ package com.rfrancos.crm.service.impl;
 import com.rfrancos.crm.dto.create.CreateUserDto;
 import com.rfrancos.crm.dto.get.GetUserDto;
 import com.rfrancos.crm.dto.update.UpdateUserDto;
-import com.rfrancos.crm.exceptions.CustomException;
+import com.rfrancos.crm.exceptions.NotFoundException;
 import com.rfrancos.crm.mapper.UserMapper;
 import com.rfrancos.crm.repository.UserRepository;
 import com.rfrancos.crm.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,27 +29,17 @@ public class UserServiceImpl implements UserService {
     public GetUserDto getUserById(Long id) {
         return userRepository.findById(id)
                 .map(userMapper::toGetUserDto)
-                .orElseThrow(() -> new CustomException("User not found for id: " + id, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException("User not found for id: " + id));
     }
 
     @Override
     public GetUserDto createUser(CreateUserDto createUserDto) {
-        try {
-            return userMapper.toGetUserDto(userRepository.save(userMapper.createUserDtoToEntity(createUserDto)));
-        }
-        catch (DataIntegrityViolationException exception) {
-            throw new CustomException(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return userMapper.toGetUserDto(userRepository.save(userMapper.createUserDtoToEntity(createUserDto)));
     }
 
     @Override
     public GetUserDto updateUser(UpdateUserDto updateUserDto) {
-        try {
-            return userMapper.toGetUserDto(userRepository.save(userMapper.updateUserDtoToEntity(updateUserDto)));
-        }
-        catch (DataIntegrityViolationException exception) {
-            throw new CustomException(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return userMapper.toGetUserDto(userRepository.save(userMapper.updateUserDtoToEntity(updateUserDto)));
     }
 
     @Override
