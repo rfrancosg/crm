@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  app:
+    image: crm:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: qa
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: adminadmin1
+      SPRING_DATASOURCE_URL: jdbc:postgresql://crm-qa.c102o8gg4uia.eu-north-1.rds.amazonaws.com:5432/crm?currentSchema=crm
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: adminadmin1
+      AWS_S3_ACCESS_KEY: AKIAWAA66JWEDWCPSYXQ
+      AWS_S3_REGION: eu-north-1
+      AWS_S3_BUCKET_NAME: crm-qa-images
+      AWS_S3_SECRET_KEY: CIppKB3VDNelwXv1vCtI1HpNlhcHP+mPPAumKUlU
