@@ -4,8 +4,9 @@ import com.rfrancos.crm.dto.LoginResponse;
 import com.rfrancos.crm.dto.LoginUserDto;
 import com.rfrancos.crm.dto.RegisterUserDto;
 import com.rfrancos.crm.entity.User;
-import com.rfrancos.crm.service.impl.AuthenticationService;
-import com.rfrancos.crm.service.impl.JwtService;
+import com.rfrancos.crm.service.impl.AuthenticationServiceImpl;
+import com.rfrancos.crm.service.impl.JwtServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,15 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/auth")
 @RestController
+@RequiredArgsConstructor
 public class AuthenticationController {
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtService;
     
-    private final AuthenticationService authenticationService;
-
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
-        this.jwtService = jwtService;
-        this.authenticationService = authenticationService;
-    }
+    private final AuthenticationServiceImpl authenticationService;
 
     @PostMapping("/signup")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
