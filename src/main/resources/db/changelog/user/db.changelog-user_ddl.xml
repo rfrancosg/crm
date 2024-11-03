@@ -22,4 +22,11 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="password-and-admin-columns" author="francos">
+        <addColumn tableName="app_user">
+            <column name="password" type="varchar(255)" defaultValue="" />
+            <column name="is_admin" type="boolean" defaultValue="false" />
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
