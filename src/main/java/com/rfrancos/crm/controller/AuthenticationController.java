@@ -1,8 +1,8 @@
 package com.rfrancos.crm.controller;
 
-import com.rfrancos.crm.dto.LoginResponse;
-import com.rfrancos.crm.dto.LoginUserDto;
-import com.rfrancos.crm.dto.RegisterUserDto;
+import com.rfrancos.crm.dto.login.LoginResponse;
+import com.rfrancos.crm.dto.login.LoginUserDto;
+import com.rfrancos.crm.dto.login.RegisterUserDto;
 import com.rfrancos.crm.entity.User;
 import com.rfrancos.crm.service.impl.AuthenticationServiceImpl;
 import com.rfrancos.crm.service.impl.JwtServiceImpl;

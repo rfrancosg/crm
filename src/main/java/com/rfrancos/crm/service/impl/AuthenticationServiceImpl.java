@@ -1,7 +1,7 @@
 package com.rfrancos.crm.service.impl;
 
-import com.rfrancos.crm.dto.LoginUserDto;
-import com.rfrancos.crm.dto.RegisterUserDto;
+import com.rfrancos.crm.dto.login.LoginUserDto;
+import com.rfrancos.crm.dto.login.RegisterUserDto;
 import com.rfrancos.crm.entity.User;
 import com.rfrancos.crm.exceptions.NotFoundException;
 import com.rfrancos.crm.repository.UserRepository;
