@@ -1,4 +1,4 @@
-package com.rfrancos.crm.dto;
+package com.rfrancos.crm.dto.login;
 
 import lombok.Data;
 
