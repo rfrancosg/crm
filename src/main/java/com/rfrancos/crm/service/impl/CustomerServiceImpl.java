@@ -4,6 +4,7 @@ import com.rfrancos.crm.dto.create.CreateCustomerDto;
 import com.rfrancos.crm.dto.get.GetCustomerDto;
 import com.rfrancos.crm.dto.update.UpdateCustomerDto;
 import com.rfrancos.crm.entity.Customer;
+import com.rfrancos.crm.entity.User;
 import com.rfrancos.crm.exceptions.FileEmptyException;
 import com.rfrancos.crm.exceptions.NotFoundException;
 import com.rfrancos.crm.mapper.CustomerMapper;
@@ -11,12 +12,12 @@ import com.rfrancos.crm.repository.CustomerRepository;
 import com.rfrancos.crm.service.CustomerService;
 import com.rfrancos.crm.service.S3Service;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,12 +44,25 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public GetCustomerDto createCustomer(CreateCustomerDto createCustomerDto) {
-        return customerMapper.toGetCustomerDto(customerRepository.save(customerMapper.createCustomerDtoToEntity(createCustomerDto)));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User userDetails = (User) authentication.getPrincipal();
+        Customer customer = customerMapper.createCustomerDtoToEntity(createCustomerDto);
+        customer.setCreatedBy(userDetails);
+        return customerMapper.toGetCustomerDto(customerRepository.save(customer));
     }
 
     @Override
     public GetCustomerDto updateCustomer(UpdateCustomerDto updateCustomerDto) {
-        return customerMapper.toGetCustomerDto(customerRepository.save(customerMapper.updateCustomerDtoToEntity(updateCustomerDto)));
+        Optional<Customer> mayCustomer = customerRepository.findById(updateCustomerDto.getId());
+        if (!mayCustomer.isPresent()) {
+            throw new NotFoundException("Customer not found with id: " + updateCustomerDto.getId());
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User userDetails = (User) authentication.getPrincipal();
+        mayCustomer.get().setName(updateCustomerDto.getName());
+        mayCustomer.get().setSurname(updateCustomerDto.getSurname());
+        mayCustomer.get().setUpdatedBy(userDetails);
+        return customerMapper.toGetCustomerDto(customerRepository.save(mayCustomer.get()));
     }
 
     @Override
@@ -67,6 +81,9 @@ public class CustomerServiceImpl implements CustomerService {
         if (!mayCustomer.isPresent()) {
             throw new NotFoundException("Customer not found with id: " + customerId);
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User userDetails = (User) authentication.getPrincipal();
+        mayCustomer.get().setUpdatedBy(userDetails);
         mayCustomer.get().setPhotoUrl(fileUrl);
         return customerMapper.toGetCustomerDto(customerRepository.save(mayCustomer.get()));
     }
