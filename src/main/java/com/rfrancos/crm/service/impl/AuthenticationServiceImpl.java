@@ -5,29 +5,23 @@ import com.rfrancos.crm.dto.RegisterUserDto;
 import com.rfrancos.crm.entity.User;
 import com.rfrancos.crm.exceptions.NotFoundException;
 import com.rfrancos.crm.repository.UserRepository;
+import com.rfrancos.crm.service.AuthenticationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticationService {
+@RequiredArgsConstructor
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     
     private final PasswordEncoder passwordEncoder;
     
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationService(
-        UserRepository userRepository,
-        AuthenticationManager authenticationManager,
-        PasswordEncoder passwordEncoder
-    ) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
+    @Override
     public User signup(RegisterUserDto input) {
         User user = new User();
         user.setName(input.getName());
@@ -38,6 +32,7 @@ public class AuthenticationService {
         return userRepository.save(user);
     }
 
+    @Override
     public User authenticate(LoginUserDto input) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
