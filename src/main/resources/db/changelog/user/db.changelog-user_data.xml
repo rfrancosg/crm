@@ -1,0 +1,17 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="adminUser" author="francos">
+        <insert tableName="app_user">
+            <column name="email" value="admin@gmail.com"/>
+            <column name="password" value="$2a$10$yzqijwqRpSXGeIBeDSQLv.VmNvK2MAC.x8sw0OhxDiQK0AQZ2BDL6"/>
+            <column name="is_admin" value="true"/>
+            <column name="name" value="admin"/>
+            <column name="surname" value="admin"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
