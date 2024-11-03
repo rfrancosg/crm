@@ -7,6 +7,7 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <include file="customer/db.changelog-customer_ddl.xml" relativeToChangelogFile="true" />
     <include file="user/db.changelog-user_ddl.xml" relativeToChangelogFile="true" />
+    <include file="user/db.changelog-user_data.xml" relativeToChangelogFile="true" />
     <include file="customer/db.changelog-customer-user-relations_ddl.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>

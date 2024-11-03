@@ -1,5 +1,6 @@
 package com.rfrancos.crm.entity;
 
+import com.rfrancos.crm.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
@@ -73,7 +75,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList();
+        if (isAdmin) {
+            return Arrays.asList(new SimpleGrantedAuthority(UserRole.ADMIN.getRole()));
+        }
+        return Arrays.asList(new SimpleGrantedAuthority(UserRole.USER.getRole()));
     }
 
     @Override

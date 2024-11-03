@@ -33,8 +33,10 @@ public class SecurityConfiguration {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**")
+                .requestMatchers("/auth/login")
                 .permitAll()
+                .requestMatchers("/customer/**").hasAnyRole("USER", "ADMIN") // Admin-only endpoints
+                .requestMatchers("/user/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
